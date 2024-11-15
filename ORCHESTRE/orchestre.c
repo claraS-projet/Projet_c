@@ -9,6 +9,7 @@
 #include "service.h"
 
 
+
 static void usage(const char *exeName, const char *message)
 {
     fprintf(stderr, "usage : %s <fichier config>\n", exeName);
@@ -29,8 +30,30 @@ int main(int argc, char * argv[])
 
     // Pour la communication avec les clients
     // - création de 2 tubes nommés pour converser avec les clients
+        // Création du tube pour le sens orchestre vers client
+    int o2c = mkfifo("pipe_o2c", 0644);
+    assert(o2c == 0);
+    
+    o2c = unlink("pipe_o2c");
+    assert(o2c == 0);
+        // Création du tube pour le sens client vers orchestre
+    int c2o = mkfifo("pipe_c2o", 0644);
+    assert(c2o == 0);
+    
+    c2o = unlink("pipe_c2o");
+    assert(c2o == 0);
+    
+    
+    
     // - création d'un sémaphore pour que deux clients ne
     //   ne communiquent pas en même temps avec l'orchestre
+    
+    int semoc = semget(5, 1, 0644);
+    assert( semoc != -1);
+    
+    //Initaialisation du semaphore
+    
+    int initsem = semctl(semoc, 0, SETVAL, 1);
     
     // lancement des services, avec pour chaque service :
     // - création d'un tube anonyme pour converser (orchestre vers service)
@@ -43,6 +66,14 @@ int main(int argc, char * argv[])
     {
         // ouverture ici des tubes nommés avec un client
         // attente d'une demande de service du client
+        
+        int c2olect = open("pipe_c2o", O_RDONLY);
+        assert( c2olect != -1);
+        printf("L'orchestre a ouvert le tube c2o en lecture !\n");
+        
+        int o2cwrite = open("pipe_o2c", O_WRONLY);
+        assert (o2c != -1);
+        printf("L'orchestre a ouvert le tube o2c en ecriture !\n");
 
         // détecter la fin des traitements lancés précédemment via
         // les sémaphores dédiés (attention on n'attend pas la
