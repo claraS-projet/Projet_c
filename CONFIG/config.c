@@ -18,6 +18,7 @@
 
 
 // TODO include des .h système
+
 #include <fcntl.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
@@ -49,6 +50,7 @@ typedef struct {
 } Config;
 
 static Config config = {0};
+
 
 void config_init(const char *filename)
 {
@@ -88,7 +90,6 @@ void config_init(const char *filename)
     
     fclose(fd);
     config.initialized = true;
-}
 
 void config_exit()
 {
@@ -118,6 +119,7 @@ const char * config_getExeName()
 {
     // TODO erreur si la fonction est appelée avant config_init
     // TODO erreur si la fonction est appelée après config_exit
+
     assert(config.initialized);
 
     // TODO code par défaut, à remplacer
@@ -128,6 +130,7 @@ bool config_isServiceOpen(int pos)
 {
     // TODO erreur si la fonction est appelée avant config_init
     // TODO erreur si la fonction est appelée après config_exit
+
     assert(config.initialized);
     // TODO erreur si "pos" est incorrect
 	assert(pos >= 0 && pos < config.service_nb);

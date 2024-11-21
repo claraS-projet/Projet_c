@@ -43,7 +43,4 @@ int main() {
 	myOpclient[0].sem_num = 0;
 	myOpclient[0].sem_op = +1;
 	myOpclient[0].sem_flg = 0;
-
-
-	
 }

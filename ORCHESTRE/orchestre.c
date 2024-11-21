@@ -11,8 +11,6 @@
 #include <fcntl.h>
 
 
-
-
 #include "config.h"
 #include "client_orchestre.h"
 #include "orchestre_service.h"
@@ -39,12 +37,14 @@ int main(int argc, char * argv[])
 
     // Pour la communication avec les clients
     // - création de 2 tubes nommés pour converser avec les clients
+
     	// Création du tube pour le sens orchestre vers client
     int o2c = mkfifo("pipe_o2c", 0644); 
     assert(o2c == 0);
     
     o2c = unlink("pipe_o2c");
     assert(o2c == 0);
+
     	// Création du tube pour le sens client vers orchestre
     int c2o = mkfifo("pipe_c2o", 0644); 
     assert(c2o == 0);
