@@ -5,5 +5,15 @@
 // - le sémaphore pour que 2 clients ne conversent pas en même
 //   temps avec l'orchestre
 // - les deux tubes nommés pour la communication bidirectionnelle
+void creationComoc();
+void destructionComoc();
+void creationSemoc();
+void initSemoc();
+void openComOrchestre();
+void openComClient();
+void openSemClient();
+void myOp();
+void sentNum(int num);
+int readNum();
 
 #endif

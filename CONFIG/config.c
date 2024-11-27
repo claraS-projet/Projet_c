@@ -35,6 +35,7 @@
 #include "config.h"
 
 #define TAILLE 150
+#define _POSIX_C_SOURCE 200809L
 
 // TODO Définition des données ici
 typedef struct {
@@ -51,6 +52,7 @@ typedef struct {
 
 static Config config = {0};
 
+char *strdup(const char *); //Declaration explicite de strdup car cela ne fonction pas sinon
 
 void config_init(const char *filename)
 {
@@ -90,6 +92,7 @@ void config_init(const char *filename)
     
     fclose(fd);
     config.initialized = true;
+}
 
 void config_exit()
 {

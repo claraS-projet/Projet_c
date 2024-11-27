@@ -19,9 +19,9 @@ cflags="-Wall -Wextra -pedantic -std=c99 -fPIC"
 #------------
 # options supplémentaires (les deux dernières uniquement lorsqu'il reste des fonctions non implémentées)
 #cextraflags="-O3"
-cextraflags="-g"
-#cextraflags="-g -Wno-unused-parameter"
-#cextraflags="-g -Wno-unused-parameter -Wno-unused-variable"
+#cextraflags="-g"
+cextraflags="-g -Wno-unused-parameter"
+cextraflags="-g -Wno-unused-parameter -Wno-unused-variable"
 
 #------------
 # source communes à plusieurs programmes

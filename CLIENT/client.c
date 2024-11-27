@@ -53,8 +53,11 @@ int main(int argc, char * argv[])
     // entrée en section critique pour communiquer avec l'orchestre
     
     // ouverture des tubes avec l'orchestre
+    openComClient();
 
     // envoi à l'orchestre du numéro du service
+    
+    sentNum(numService);
 
     // attente code de retour
     // si code d'erreur
