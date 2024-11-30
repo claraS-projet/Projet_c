@@ -8,11 +8,12 @@
 void creationComoc();
 void destructionComoc();
 void creationSemoc();
+void destructionSemoc();
 void initSemoc();
 void openComOrchestre();
 void closeComOrchestre();
 void openComClient();
-void openSemClient();
+int openSemClient();
 void myOpadd(int semId);
 void myOpmoins(int semId);
 void sentNum(int num);

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/types.h>
@@ -53,8 +54,10 @@ int main(int argc, char * argv[])
     //         ou . client_sigma_verifArgs
 
     // initialisations diverses s'il y a lieu
+    int mysem = openSemClient();
 
     // entrée en section critique pour communiquer avec l'orchestre
+    myOpmoins(mysem);
     
     // ouverture des tubes avec l'orchestre
     openComClient();
@@ -62,7 +65,7 @@ int main(int argc, char * argv[])
     // envoi à l'orchestre du numéro du service
     
     sentNum(numService);
-
+    sleep(5);
     // attente code de retour
     int codeRetour;
     codeRetour = readCoderetour();

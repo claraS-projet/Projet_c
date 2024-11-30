@@ -45,11 +45,11 @@ int main(int argc, char * argv[])
     // - création d'un sémaphore pour que deux clients ne
     //   ne communiquent pas en même temps avec l'orchestre
     
-    //creationSemoc();
+    creationSemoc();
     
     //Initaialisation du semaphore
     
-    //initSemoc();
+    initSemoc();
     
     // lancement des services, avec pour chaque service :
     // - création d'un tube anonyme pour converser (orchestre vers service)
@@ -132,6 +132,7 @@ int main(int argc, char * argv[])
 
     // libération des ressources
     destructionComoc();
+    destructionSemoc();
     
     return EXIT_SUCCESS;
 }

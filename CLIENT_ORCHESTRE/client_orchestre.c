@@ -30,9 +30,6 @@ int o2clect;
 
 void creationComoc(){
 // Création du tube pour le sens orchestre vers client
-/* if(access("pipe_o2c", F_OK) == 0)
-	int rem = remove("pipi_o2c")
-	assert(rem != 0);*/
     int ret;
     ret = mkfifo("pipe_o2c", 0644); 
     assert(ret != -1);
@@ -63,6 +60,11 @@ void creationSemoc(){
     
     semoc = semget(5, 1, IPC_CREAT | 0644);
     assert( semoc != -1);
+}
+
+void destructionSemoc(){
+//Destruction du semaphore entre le client et l'orchestre
+	int ret = semctl(semoc, -1, IPC_RMID);
 }
 
 void initSemoc(){
@@ -107,12 +109,13 @@ void openComClient(){
 	assert(o2clect != -1);
 	printf("Le client a ouvert le tube o2c en lecture\n");
 }
-/*
-void openSemClient(){
+
+int openSemClient(){
 // - le sémaphore pour que 2 clients ne conversent pas en même
 //   temps avec l'orchestre
 	semoc = semget(5, 1, 0);
 	assert(semoc != -1);
+	return semoc;
 }
 // Opération sur le semaphore pour gérer l'acces en zone critique
 void myOpadd(int semId){
@@ -128,17 +131,15 @@ void myOpadd(int semId){
 void myOpmoins(int semId){
 	struct sembuf myOpclientmoins[1];
 	myOpclientmoins[0].sem_num = 0;
-	myOpclientmoins[0].sem_op = +1;
+	myOpclientmoins[0].sem_op = -1;
 	myOpclientmoins[0].sem_flg = 0;
 	
 	int moins = semop(semId, myOpclientmoins, 1);
 	assert( moins != -1);	
-}*/
+}
 
 void sentNum(int num){
 //Envoie d'une demande pour l'utilisation du service num a l'orchestre
-//ajouter l'op -1 au semaphore pour passer ne section critique
-	/*myOpmoins(semoc);*/
 	
 	int ret = write(c2owrite, &num, sizeof(int));
 	assert(ret != -1);
@@ -259,6 +260,9 @@ void finTransactionClient(){
 	int ret2 = close(o2clect);
 	assert (ret2 == 0);
 	printf("Le client a fermé le tube o2c en lecture !\n");
+
+//Libération du sémaphore
+	myOpadd(semoc);
 }
 
 int finTransactionOrchestre(){
