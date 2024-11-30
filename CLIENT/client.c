@@ -60,13 +60,23 @@ int main(int argc, char * argv[])
     sentNum(numService);
 
     // attente code de retour
+    int codeRetour;
+    codeRetour = readCoderetour();
     // si code d'erreur
     //     afficher un message erreur
+    if( codeRetour == -1 ){
+    	printf("Acces au service demandé impossible\n");
+    }
     // sinon si demande d'arrêt (i.e. numService == -1)
     //     afficher un message
+    if(numService == -1){
+    	printf("Vous avez demandé à l'orchestre de s'arrèter\n");
+    }else{
     // sinon
     //     récupération du mot de passe et des noms des 2 tubes
+    	int MdpService = readMdp();
     // finsi
+    }
     //
     // envoi d'un accusé de réception à l'orchestre
     // fermeture des tubes avec l'orchestre

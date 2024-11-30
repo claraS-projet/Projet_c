@@ -16,6 +16,7 @@
 #include "orchestre_service.h"
 #include "service.h"
 
+//penser a faire des close pour fermer les tubes anonymes
 
 static void usage(const char *exeName, const char *message)
 {
@@ -44,11 +45,11 @@ int main(int argc, char * argv[])
     // - création d'un sémaphore pour que deux clients ne
     //   ne communiquent pas en même temps avec l'orchestre
     
-    creationSemoc();
+    //creationSemoc();
     
     //Initaialisation du semaphore
     
-    initSemoc();
+    //initSemoc();
     
     // lancement des services, avec pour chaque service :
     // - création d'un tube anonyme pour converser (orchestre vers service)
@@ -61,10 +62,11 @@ int main(int argc, char * argv[])
     {
         // ouverture ici des tubes nommés avec un client
         // attente d'une demande de service du client
-        int numClient;
+        int numService; //Numéro du service demandé par le client
         openComOrchestre();
-        printf("ok ");
-        numClient = readNum();
+        
+        numService = readNum();
+        
         // détecter la fin des traitements lancés précédemment via
         // les sémaphores dédiés (attention on n'attend pas la
         // fin des traitement, on note juste ceux qui sont finis)
@@ -73,21 +75,42 @@ int main(int argc, char * argv[])
         // si ordre de fin
         //     envoi au client d'un code d'acceptation (via le tube nommé)
         //     marquer le booléen de fin de la boucle
+        if(numService == -1){
+        	codeAcceptationoc();
+        	fin = true;
+        }
         // sinon si service non ouvert
         //     envoi au client d'un code d'erreur (via le tube nommé)
+        /*if(config_isServiceOpen(numService)){
+        	codeErreuroc();
+        }*/
         // sinon si service déjà en cours de traitement
         //     envoi au client d'un code d'erreur (via le tube nommé)
+        // codeErreuroc();
         // sinon
+        else {
+       		codeAcceptationoc();
         //     envoi au client d'un code d'acceptation (via le tube nommé)
-        //     génération d'un mot de passe
+        //     génération d'un mot de passe 
+        // 1 + numService
+        	int mdpService = numService + 1;
+     
         //     envoi d'un code de travail au service (via le tube anonyme)
         //     envoi du mot de passe au service (via le tube anonyme)
         //     envoi du mot de passe au client (via le tube nommé)
+        	SentMdp(mdpService);
         //     envoi des noms des tubes nommés au client (via le tube nommé)
+        	sentTube(numService);	
         // finsi
+        }
 
         // attente d'un accusé de réception du client
+        /*if(finComoc()){
+        		semAdd();
+        	}*/
+        	printf("Fin de la communication avec un client\n");
         // fermer les tubes vers le client
+        //	closeComoc();
 
         // il peut y avoir un problème si l'orchestre revient en haut de la
         // boucle avant que le client ait eu le temps de fermer les tubes
@@ -95,7 +118,7 @@ int main(int argc, char * argv[])
         // (en attendant on fait une attente d'1 seconde, à supprimer dès
         // que le sémaphore est en place)
         // attendre avec un sémaphore que le client ait fermé les tubes
-        sleep(1);   // à supprimer
+        sleep(3);
     }
 
     // attente de la fin des traitements en cours (via les sémaphores)

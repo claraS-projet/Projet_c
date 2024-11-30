@@ -72,7 +72,7 @@ void config_init(const char *filename)
     assert(config.services != NULL);
     
     //lecture du chemin de l'exe
-    char chemin[TAILLE]; //Quelle taille choisir ???
+    char chemin[TAILLE];
     fscanf(fd, "%s", chemin);
     config.exe_name = strdup(chemin);
     

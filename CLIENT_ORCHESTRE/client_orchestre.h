@@ -12,8 +12,15 @@ void initSemoc();
 void openComOrchestre();
 void openComClient();
 void openSemClient();
-void myOp();
+void myOpadd(int semId);
+void myOpmoins(int semId);
 void sentNum(int num);
 int readNum();
+void codeAcceptationoc();
+void codeErreuroc();
+int readCoderetour();
+void SentMdp(int mdpService);
+void sentTube(int numService);
+int readMdp();
 
 #endif
