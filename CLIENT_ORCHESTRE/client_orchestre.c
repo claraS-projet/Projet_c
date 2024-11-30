@@ -85,6 +85,17 @@ void openComOrchestre(){
         printf("L'orchestre a ouvert le tube o2c en ecriture !\n");
 }
 
+void closeComOrchestre(){
+// fermer les tubes vers le client
+	int ret = close(c2olect);
+	assert (ret == 0);
+	printf("L'orchestre a fermé le tube c2o en lecture !\n");
+	
+	int ret2 = close(o2cwrite);
+	assert (ret2 == 0);
+	printf("L'orchestre a fermé le tube o2c en ecriture !\n");
+}
+
 void openComClient(){
 //Ouverture du tube pour que le client envoie une demande à l'orchestre
 	c2owrite = open("../ORCHESTRE/pipe_c2o", O_WRONLY);
@@ -180,8 +191,8 @@ void SentMdp(int mdpService){
 
 void sentTube(int numService){
 //Détermination du nom du tube en fonction du numéro du service demandé
-	char tube_s2c[11];
-	char tube_c2s[11];
+	char tube_s2c[12];
+	char tube_c2s[12];
 	switch(numService){
 		case 0 :
 			strcpy(tube_s2c, "pipe_s2c_0");
@@ -195,7 +206,7 @@ void sentTube(int numService){
 			strcpy(tube_s2c, "pipe_s2c_2");
 			strcpy(tube_c2s, "pipe_c2s_2");
 	}
-	int len = 11; //les noms des tubes font tous la même taille
+	int len = 12; //les noms des tubes font tous la même taille
 
 //Envoi des noms des tubes nommés au client (via le tube nommé)	
 	int ret2 = write(o2cwrite, tube_s2c, sizeof(char)* len);
@@ -217,3 +228,26 @@ int readMdp(){
 	return Mdp;
 	
 }
+
+char *readTubeName(){
+	printf("ok 1\n");
+	int len = 11; //les noms des tubes font tous la même taille
+	char *tubeName;
+	printf("ok 2\n");
+	tubeName = malloc(len *sizeof(char));
+	if (tubeName == NULL) {
+		perror("Erreur d'allocation de la mémoire");
+		exit(EXIT_FAILURE);
+	}
+	printf("ok 3\n");
+	int ret = read(o2clect, &tubeName, sizeof(char)* len);
+	assert( ret != -1);
+	printf("ok 4\n");
+	//printf("Le client a lu le nom du tube : %s \n", tubeName);
+	printf("ok 5\n");
+	return tubeName;
+}
+
+
+
+

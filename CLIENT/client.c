@@ -34,6 +34,10 @@ static void usage(const char *exeName, const char *message)
 
 int main(int argc, char * argv[])
 {
+//Variables globales
+	char *tubes2c;
+	char *tubec2s;
+
     if (argc < 2)
         usage(argv[0], "nombre paramètres incorrect");
 
@@ -74,8 +78,13 @@ int main(int argc, char * argv[])
     }else{
     // sinon
     //     récupération du mot de passe et des noms des 2 tubes
+    	
     	int MdpService = readMdp();
+    	printf("ok 8\n");
+    	tubes2c = readTubeName();
+    	tubec2s = readTubeName();
     // finsi
+    	
     }
     //
     // envoi d'un accusé de réception à l'orchestre
@@ -101,6 +110,8 @@ int main(int argc, char * argv[])
     // finsi
 
     // libération éventuelle de ressources
+    	free(tubes2c);
+    	free(tubec2s);
     
     return EXIT_SUCCESS;
 }

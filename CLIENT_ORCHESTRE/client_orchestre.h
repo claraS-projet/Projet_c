@@ -10,6 +10,7 @@ void destructionComoc();
 void creationSemoc();
 void initSemoc();
 void openComOrchestre();
+void closeComOrchestre();
 void openComClient();
 void openSemClient();
 void myOpadd(int semId);
@@ -22,5 +23,6 @@ int readCoderetour();
 void SentMdp(int mdpService);
 void sentTube(int numService);
 int readMdp();
+char * readTubeName();
 
 #endif

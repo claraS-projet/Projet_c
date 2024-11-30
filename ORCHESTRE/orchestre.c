@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
         	}*/
         	printf("Fin de la communication avec un client\n");
         // fermer les tubes vers le client
-        //	closeComoc();
+        	closeComOrchestre();
 
         // il peut y avoir un problème si l'orchestre revient en haut de la
         // boucle avant que le client ait eu le temps de fermer les tubes
