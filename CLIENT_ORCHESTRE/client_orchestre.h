@@ -24,5 +24,7 @@ void SentMdp(int mdpService);
 void sentTube(int numService);
 int readMdp();
 char * readTubeName();
+void finTransactionClient();
+int finTransactionOrchestre();
 
 #endif

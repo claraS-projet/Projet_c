@@ -105,12 +105,15 @@ int main(int argc, char * argv[])
         }
 
         // attente d'un accusé de réception du client
-        /*if(finComoc()){
-        		semAdd();
-        	}*/
-        	printf("Fin de la communication avec un client\n");
-        // fermer les tubes vers le client
-        	closeComOrchestre();
+        int numfin;
+        numfin = finTransactionOrchestre();
+        if(numfin == -1){
+        		//semAdd();
+        		printf("Fin de la communication avec un client\n");
+        		// fermer les tubes vers le client
+        		closeComOrchestre();
+        	}
+        	
 
         // il peut y avoir un problème si l'orchestre revient en haut de la
         // boucle avant que le client ait eu le temps de fermer les tubes

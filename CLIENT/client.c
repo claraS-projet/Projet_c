@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
     //     récupération du mot de passe et des noms des 2 tubes
     	
     	int MdpService = readMdp();
-    	printf("ok 8\n");
+ 
     	tubes2c = readTubeName();
     	tubec2s = readTubeName();
     // finsi
@@ -90,6 +90,7 @@ int main(int argc, char * argv[])
     // envoi d'un accusé de réception à l'orchestre
     // fermeture des tubes avec l'orchestre
     // on prévient l'orchestre qu'on a fini la communication (cf. orchestre.c)
+    	finTransactionClient();
     // sortie de la section critique
     //
     // si pas d'erreur et service normal

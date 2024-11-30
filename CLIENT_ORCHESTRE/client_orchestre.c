@@ -191,8 +191,8 @@ void SentMdp(int mdpService){
 
 void sentTube(int numService){
 //Détermination du nom du tube en fonction du numéro du service demandé
-	char tube_s2c[12];
-	char tube_c2s[12];
+	char tube_s2c[11];
+	char tube_c2s[11];
 	switch(numService){
 		case 0 :
 			strcpy(tube_s2c, "pipe_s2c_0");
@@ -206,7 +206,7 @@ void sentTube(int numService){
 			strcpy(tube_s2c, "pipe_s2c_2");
 			strcpy(tube_c2s, "pipe_c2s_2");
 	}
-	int len = 12; //les noms des tubes font tous la même taille
+	int len = 11; //les noms des tubes font tous la même taille
 
 //Envoi des noms des tubes nommés au client (via le tube nommé)	
 	int ret2 = write(o2cwrite, tube_s2c, sizeof(char)* len);
@@ -230,24 +230,45 @@ int readMdp(){
 }
 
 char *readTubeName(){
-	printf("ok 1\n");
 	int len = 11; //les noms des tubes font tous la même taille
 	char *tubeName;
-	printf("ok 2\n");
 	tubeName = malloc(len *sizeof(char));
 	if (tubeName == NULL) {
 		perror("Erreur d'allocation de la mémoire");
 		exit(EXIT_FAILURE);
 	}
-	printf("ok 3\n");
-	int ret = read(o2clect, &tubeName, sizeof(char)* len);
+	int ret = read(o2clect, tubeName, sizeof(char)* len);
 	assert( ret != -1);
-	printf("ok 4\n");
-	//printf("Le client a lu le nom du tube : %s \n", tubeName);
-	printf("ok 5\n");
+	printf("Le client a lu le nom du tube : %s \n", tubeName);
 	return tubeName;
 }
 
+void finTransactionClient(){
+//Envoie d'un code a l'ochestre pour signaler la fin de la communication
+	int codeFin = -1;
+	int ret = write(c2owrite, &codeFin, sizeof(int));
+	assert( ret != -1);
+	assert(ret == sizeof(int));
+	printf("Le client a envoyé le code de fin : -1 à l'orchestre\n"); 
+	
+//Fermeture des tubes de communication avec l'orchestre
+	int ret1 = close(c2owrite);
+	assert (ret1 == 0);
+	printf("Le client a fermé le tube c2o en ecriture !\n");
+	
+	int ret2 = close(o2clect);
+	assert (ret2 == 0);
+	printf("Le client a fermé le tube o2c en lecture !\n");
+}
 
+int finTransactionOrchestre(){
+//Lecture du code signalant la fin de la transaction entre le client et l'orchestre
+	int numfin;
+	int ret = read(c2olect, &numfin, sizeof(int));
+	assert(ret != 0);
+	assert(ret == sizeof(int));
+	printf("L'orchestre a lu l'accusé de reception envoyé par le client\n");
+	return numfin;
+}
 
 
