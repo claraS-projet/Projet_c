@@ -148,6 +148,7 @@ void sentNum(int num){
 }
 
 int readNum(){
+//Lit le numero de service demandé par le client
 	int num;
 	printf("ok le tube : %d\n", c2olect);
 	int ret = read(c2olect, &num, sizeof(int));
@@ -158,6 +159,7 @@ int readNum(){
 }
 
 void codeAcceptationoc(){
+// Envoie d'un code d'acceptation de la demande du client
 	int codeAccept = 1;
 	int ret = write(o2cwrite, &codeAccept, sizeof(int));
 	assert( ret != -1);
@@ -166,6 +168,7 @@ void codeAcceptationoc(){
 }
 
 void codeErreuroc(){
+//Envoie d'un code d'erreur
 	int codeErreur = -1;
 	int ret = write(o2cwrite, &codeErreur, sizeof(int));
 	assert( ret != -1);
@@ -174,6 +177,7 @@ void codeErreuroc(){
 }
 
 int readCoderetour(){
+//Lecture du code de retour envoyé par l'orchestre 
 	int codeRetour;
 	int ret = read(o2clect, &codeRetour, sizeof(int));
 	assert(ret != 0);

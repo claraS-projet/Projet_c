@@ -6,4 +6,7 @@
 // - le sémaphore pour que  le service indique à l'orchestre la fin
 //   d'un traitement
 
+void initTubeComos();
+void initTubeService(int numService);
+
 #endif

@@ -1,3 +1,5 @@
+//Clara Schobert
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -65,7 +67,6 @@ int main(int argc, char * argv[])
     // envoi à l'orchestre du numéro du service
     
     sentNum(numService);
-    sleep(5);
     // attente code de retour
     int codeRetour;
     codeRetour = readCoderetour();

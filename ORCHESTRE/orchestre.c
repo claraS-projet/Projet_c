@@ -1,3 +1,5 @@
+//Clara Schobert
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -52,12 +54,37 @@ int main(int argc, char * argv[])
     initSemoc();
     
     // lancement des services, avec pour chaque service :
+   
     // - création d'un tube anonyme pour converser (orchestre vers service)
+  /*  initTubeComos();
+    int retFork, retFork2, retFork3;
+    retFork = fork();
+	assert (retFork != -1);
+    
+	if(retFork == 0) {
+    	initTubeService(0);
+    }else {
+    	initTubeComos();
+    	retFork2 = fork();
+    	assert (retFork2 != -1);
+    	
+    	if(retFork2 == 0) {
+    		initTubeService(1);
+   		 }else {
+    			initTubeComos();
+    			retFork3 = fork();
+    			assert (retFork3 != -1);
+    			
+    			if(retFork3 == 0) {
+    			initTubeService(2);
+    			}
+    		}
+    	
     // - un sémaphore pour que le service préviene l'orchestre de la
     //   fin d'un traitement
     // - création de deux tubes nommés (pour chaque service) pour les
     //   communications entre les clients et les services
-
+   if (retFork != 0 && retFork2 != 0 && retFork3 != 0){*/
     while (! fin)
     {
         // ouverture ici des tubes nommés avec un client
@@ -123,6 +150,8 @@ int main(int argc, char * argv[])
         // attendre avec un sémaphore que le client ait fermé les tubes
         sleep(3);
     }
+ //   } Fin du  if (retFork != 0 && retFork2 != 0 && retFork3 != 0){
+
 
     // attente de la fin des traitements en cours (via les sémaphores)
 
