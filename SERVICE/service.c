@@ -36,29 +36,45 @@ int main(int argc, char * argv[])
         usage(argv[0], "nombre paramètres incorrect");
 
     // initialisations diverses : analyse de argv
+    bool fin = true;
 
     while (true)
     {
         // attente d'un code de l'orchestre (via tube anonyme)
+        //	int code = readCode();  (non implémenté)
         // si code de fin
+        //	if(code == -1){
         //    sortie de la boucle
+        //		fin = false; }
         // sinon
+        //	else {
         //    réception du mot de passe de l'orchestre
+        //	int mdp = readMdp();	(non implémenté)
         //    ouverture des deux tubes nommés avec le client
+        //	openComcs(); (non implémenté)
         //    attente du mot de passe du client
+        //	int mdpVerif = readMdpClient(); (non implémenté)
         //    si mot de passe incorrect
+        //	if (mdp != mdpVerif){
         //        envoi au client d'un code d'erreur
+        //		codeErreur(); (non implémenté) }
         //    sinon
+        //	else {
         //        envoi au client d'un code d'acceptation
+        //		codeAccept(); (non implémenté)
         //        appel de la fonction de communication avec le client :
         //            une fct par service selon numService (cf. argv[1]) :
         //                   . service_somme
         //                ou . service_compression
         //                ou . service_sigma
         //        attente de l'accusé de réception du client
+        //		int finCom = readCodeRetour();  (non implémenté)
         //    finsi
+        //		if(finCom == -1) {
         //    fermeture ici des deux tubes nommés avec le client
+        //		finComsc();  (non implémenté)
         //    modification du sémaphore pour prévenir l'orchestre de la fin
+        //		semAdd(); (non implémenté)
         // finsi
     }
 

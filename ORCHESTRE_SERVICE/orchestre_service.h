@@ -8,5 +8,9 @@
 
 void initTubeComos();
 void initTubeService(int numService);
+int creationSemos(int numService);
+void destructionSemos(int idSem);
+void creationComcs(int numService);
+void destructionComcs(int numService);
 
 #endif

@@ -136,7 +136,7 @@ bool config_isServiceOpen(int pos)
 
     assert(config.initialized);
     // TODO erreur si "pos" est incorrect
-	assert(pos >= 0 && pos < config.service_nb);
+	assert(pos >= -1 && pos < config.service_nb);
     // TODO code par défaut, à remplacer
     
     return config.services[pos].is_open;

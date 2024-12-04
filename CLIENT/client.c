@@ -55,33 +55,33 @@ int main(int argc, char * argv[])
     //         ou . client_compression_verifArgs
     //         ou . client_sigma_verifArgs
 
-    // initialisations diverses s'il y a lieu
+// initialisations diverses s'il y a lieu
     int mysem = openSemClient();
 
-    // entrée en section critique pour communiquer avec l'orchestre
+// entrée en section critique pour communiquer avec l'orchestre
     myOpmoins(mysem);
     
-    // ouverture des tubes avec l'orchestre
+// ouverture des tubes avec l'orchestre
     openComClient();
 
-    // envoi à l'orchestre du numéro du service
+// envoi à l'orchestre du numéro du service
     
     sentNum(numService);
-    // attente code de retour
+// attente code de retour
     int codeRetour;
     codeRetour = readCoderetour();
-    // si code d'erreur
-    //     afficher un message erreur
+// si code d'erreur
+//     afficher un message erreur
     if( codeRetour == -1 ){
     	printf("Acces au service demandé impossible\n");
     }
-    // sinon si demande d'arrêt (i.e. numService == -1)
-    //     afficher un message
-    if(numService == -1){
+// sinon si demande d'arrêt (i.e. numService == -1)
+//     afficher un message
+    else if(numService == -1){
     	printf("Vous avez demandé à l'orchestre de s'arrèter\n");
     }else{
-    // sinon
-    //     récupération du mot de passe et des noms des 2 tubes
+// sinon
+//     récupération du mot de passe et des noms des 2 tubes
     	
     	int MdpService = readMdp();
  
@@ -91,18 +91,24 @@ int main(int argc, char * argv[])
     	
     }
     //
-    // envoi d'un accusé de réception à l'orchestre
-    // fermeture des tubes avec l'orchestre
-    // on prévient l'orchestre qu'on a fini la communication (cf. orchestre.c)
+// envoi d'un accusé de réception à l'orchestre
+// fermeture des tubes avec l'orchestre
+// on prévient l'orchestre qu'on a fini la communication (cf. orchestre.c)
     	finTransactionClient();
     // sortie de la section critique
     //
     // si pas d'erreur et service normal
     //     ouverture des tubes avec le service
+    //		openComcs(); (non implémenté)
     //     envoi du mot de passe au service
+    //		sentMdpcs(MdpService);  (non implémenté)
     //     attente de l'accusé de réception du service
+    //		codeService = readCodeRetourService();  (non implémenté)
     //     si mot de passe non accepté
+    //		if (codeService == -1){
     //         message d'erreur
+    //		printf("Mot de passe incorrect");
+    //		}
     //     sinon
     //         appel de la fonction de communication avec le service :
     //             une fct par service selon numService :
@@ -112,9 +118,10 @@ int main(int argc, char * argv[])
     //         envoi d'un accusé de réception au service
     //     finsi
     //     fermeture des tubes avec le service
+    //		closeComcs();  (non implémenté)
     // finsi
 
-    // libération éventuelle de ressources
+// libération éventuelle de ressources
     	free(tubes2c);
     	free(tubec2s);
     

@@ -12,6 +12,8 @@
 
 //Initialisation des variables globales
 int tubeOrchestreService[2];
+int semos;
+key_t cle;
 
 void initTubeComos(){
 // - création d'un tube anonyme pour converser (orchestre vers service)
@@ -55,18 +57,64 @@ void initTubeService(int numService){
         execv(argv[0], argv);
 }
 
- // - un sémaphore pour que le service préviene l'orchestre de la
-    //   fin d'un traitement
-    // - création de deux tubes nommés (pour chaque service) pour les
-    //   communications entre les clients et les services
+int creationSemos(int numService){
+// - création d'un sémaphore pour que le service préviene l'orchestre de la
+//  fin d'un traitement
+    cle = ftok("../ORCHESTRE_SERVICE/orchestre_service.h", numService+1);
+    assert( cle != -1);
     
-  /*  Un programme service prend en ligne de commande les paramètres suivants :
-- le numéro du service (actuellement 0 pour la somme, 1 pour la compression,
-  et 2 pour le sigma/somme d'un tableau)
-- la clé du sémaphore pour synchroniser le service avec l'orchestre
-- le "file descriptor du tube anonyme" orchestre vers service
-- le nom du tube nommé pour la communication service vers client
-- le nom du tube nommé pour la communication client vers service
+    semos = semget(cle, 1, IPC_CREAT | 0641);
+    assert( semos != -1);
+    return semos;
+}
 
-Rappel : l'orchestre lancera (fork + exec) une seule instance de chaque
-service (donc actuellemnt il lancera 3 versions de l'exécutable "service")*/
+void destructionSemos(int idSem){
+//Destruction du semaphore entre les services et l'orchestre
+	int ret = semctl(idSem, -1, IPC_RMID);
+}
+
+
+
+void creationComcs(int numService){
+
+// - création de deux tubes nommés (pour chaque service) pour les
+//   communications entre les clients et les services
+// Création du tube pour le sens service vers client
+    char tubes2c[12];
+	
+    sprintf(tubes2c, "pipe_s2c_%d", numService);
+
+    int ret;
+    ret = mkfifo(tubes2c, 0644); 
+    assert(ret != -1);
+    
+
+// Création du tube pour le sens client vers service
+    char tubec2s[12];
+	
+    sprintf(tubec2s, "pipe_c2s_%d", numService);
+
+    ret = mkfifo(tubec2s, 0644); 
+    assert(ret != -1);
+    
+}
+
+void destructionComcs(int numService){
+// Destruction des tubes pour le sens service vers client
+    char tubes2c[12];
+	
+    sprintf(tubes2c, "pipe_s2c_%d", numService);
+    
+    int ret;
+    ret = unlink(tubes2c);
+    assert(ret == 0);
+
+// Destruction du tube pour le sens client vers service
+    char tubec2s[12];
+	
+    sprintf(tubec2s, "pipe_c2s_%d", numService);
+
+    ret = unlink(tubec2s);
+    assert(ret == 0);
+
+}
